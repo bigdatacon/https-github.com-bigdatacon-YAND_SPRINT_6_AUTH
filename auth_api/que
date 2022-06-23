@@ -153,3 +153,5 @@ auth_api/flask_app/migrations
 
 
 8.auth_api/flask_app/groups_bp/groups_bp.py - вопросы в целом такие же как по пункту 5, поэтому достаточно ответить на пункт 5
+
+9. Как заполняется файл swagger в папке docs
