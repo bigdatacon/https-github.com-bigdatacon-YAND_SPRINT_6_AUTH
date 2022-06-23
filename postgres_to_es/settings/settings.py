@@ -25,9 +25,5 @@ class Settings:
 
     def get_settings(self):
         if not self.__settings:
-            self.__settings = AllSettings.parse_file('settings.json')
+            self.__settings = AllSettings.parse_file('settings/settings.json')
         return self.__settings
-
-
-A = Settings()
-print(A.get_settings())
