@@ -1,0 +1,155 @@
+
+0. Как проверить работоспособность auth?
+
+
+1.auth_api/redis_auth/conf/etc/redis.conf:
+что означают записи?:
+save 60 1
+dbfilename dump.rdb
+dir ./
+rdbcompression yes
+
+2.auth_api/flask_app/db_models.py:
+user_group = db.Table(
+    "user_group_rel",
+    db.Column(
+        "id",
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        unique=True,
+        nullable=False,
+    ),
+    db.Column("user_id", UUID(as_uuid=True), db.ForeignKey("auth.user.id")),
+    db.Column("group_id", UUID(as_uuid=True), db.ForeignKey("auth.group.id")),
+    extend_existing=True,
+    schema="auth",
+)
+Вопросы:
+-"user_group_rel", - это название таблицы?
+- class User(db.Model):   - db.Model это какое то общедоступное расширение? (то есть не атрибут какого то файла приложения?)
+- Что именно имортирует эта строка from auth_config import db? Если  в auth_config db это db = SQLAlchemy(session_options={"autoflush": False})?
+- с учетом вопросам Выше что такое db.Table?
+- Что значит эта строка:
+    groups = db.relationship(
+        "Group", secondary=user_group, lazy="subquery", back_populates="users"
+    )
+- Что делает эта функция:
+    @property
+    def password(self):
+        raise AttributeError("Could not get password from password hash")
+- Зачем делать отдельную функцию для возврата групп если есть и так это поле в таблице:
+def get_all_groups(self):
+    """Список всех групп, в которых состоит пользователь"""
+    return self.groups
+
+- Как работает эта функция?
+def is_admin(self):
+    """Состоит ли пользователь в группе администраторов"""
+    groups = self.groups
+    for g in groups:
+        if g.is_admin():
+            return True
+    return False
+
+- Откуда берется HISTORY?
+def get_history(self, since: Optional[datetime.datetime] = None):
+    """
+    Вернуть историю действий этого пользователя
+
+    Если задан параметр since, то вернуть только действия, которые
+    были позже указанной метки времени
+    """
+    if since:
+        return (
+            History.query.filter(History.user_id == self.id)
+            .filter(History.timestamp >= since)
+            .order_by(History.timestamp.desc())
+        )
+    else:
+        return History.query.filter(History.user_id == self.id).order_by(
+            History.timestamp.desc()
+        )
+- Если User это класс, то как работает тогда query.filter? Это же не методы класса?
+    def get_all_users(self):
+        """Список всех пользователей в этой группе"""
+        return User.query.filter(User.groups.any(id=self.id))
+
+3.auth_api/flask_app/wsgi.py:
+- что делает этот файл если есть app.py?
+4. auth_api/flask_app/auth_config.py
+-Не увидел файла из которого импортируются переменные окружения?
+- Что делают строки ниже:
+db = SQLAlchemy(session_options={"autoflush": False})
+migrate_obj = Migrate()
+engine = db.create_engine(Config.SQLALCHEMY_DATABASE_URI, {})
+insp = inspect(engine)
+
+5.auth_api/flask_app/users_bp/users_bp.py:
+- Почему данный импорт взять в скобки:
+from flask_jwt_extended import (
+    create_access_token,
+    create_refresh_token,
+    get_jwt,
+    get_jwt_identity,
+    jwt_required,
+    verify_jwt_in_request,
+)
+И можно описать что делают эти методы(я почитал документацию, но все таки хотелось бы еще раз проговорить)
+
+-Что делает эта строка:
+users_bp = Blueprint("users_bp", __name__)?
+-Что делают первые 2 строчки в коде ниже:
+@swag_from("../schemes/users_get.yaml", methods=["GET"])
+@users_bp.route("/", methods=["GET"])
+def list_users():
+-В этой же функции что и в коде выше:
+def list_users():
+    """
+    Список всех зарегистрированных пользователей
+    """
+    users = []
+    page_size = request.args.get("page_size", None)
+    page_number = request.args.get("page_number", 1)
+
+Если request не передается в функцию, то получаетяс args.get - это стандартные методы библиотеки request?
+- В этой же функции (что и выше ) User.query - User ведь тоже никак не передается?
+-Как работает эта функция, что передается в obj и регистр:
+@swag_from("../schemes/user_register.yaml", validation=True)
+@users_bp.route("/register", methods=["POST"])
+def register():
+    """
+    Метод регистрации пользователя
+    """
+    obj = request.json
+    user = User.query.filter_by(email=obj["email"]).first()
+
+-def login():
+откуда эти методы:
+access_token = create_access_token(identity=user_identity)
+refresh_token = create_refresh_token(identity=user_identity)
+
+- как работает этот код:
+db.session.add(history)
+db.session.commit()
+
+
+- в самоме начале :
+jwt_redis_blocklist = jwt_redis
+Откуда и что такое jwt_redis?
+
+-def update():
+Как работает этот код если в классе User нет поля identity:
+user = User.query.get(identity)?
+
+6. Как заполняется этот файл и как его читать:
+auth_api/flask_app/schemes? Откуда в нем данные?
+
+- В этой папке только файлы с описанием или они еще какую то смысловую нагрузку для кода несут?
+auth_api/flask_app/schemes?
+
+7. Файлы в этой папке как формировались - руками, или они автоматически после какой то команды сформировались?
+auth_api/flask_app/migrations
+
+
+8.auth_api/flask_app/groups_bp/groups_bp.py - вопросы в целом такие же как по пункту 5, поэтому достаточно ответить на пункт 5
