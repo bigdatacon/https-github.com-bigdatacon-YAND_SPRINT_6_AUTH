@@ -1,5 +1,6 @@
 from db_models import  User, Group
 import datetime
+import uuid
 
 from app import create_app, db
 
@@ -7,7 +8,7 @@ app = create_app()
 
 with app.app_context():
     #данные для заполнения User- почему то id не заполняется
-    id = 'ffdg4564g56sd4fs6dgs'
+    id = uuid.uuid4()
     login = "first_user"
     email = "firstuser@ya.ru"
     password_hash = "fff"
@@ -32,7 +33,7 @@ with app.app_context():
     )
 
     #Данные для заполения Групп
-    id = 'fdsfgsdgsgdg54564646'
+    id = uuid.uuid4()
     name ='base_group'
     description = 'baseGroupdescr'
 
