@@ -3,7 +3,7 @@
 # http://localhost:5000/auth/groups/
 from flask import Blueprint, render_template, request
 from flask.json import jsonify
-from auth_config import Config
+from auth_config import Config, db
 from groups_bp import groups_bp
 """
 Основной модуль
@@ -20,6 +20,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config())
     app.register_blueprint(groups_bp, url_prefix=f"/groups")
+    db.init_app(app)
     # app.register_blueprint(users_bp, url_prefix=f"{BASE_PATH}/users")
     # app.register_blueprint(test_bp, url_prefix="/test")
 
