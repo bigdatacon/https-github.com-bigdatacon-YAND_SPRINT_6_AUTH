@@ -1,0 +1,6 @@
+1. в src по дефорту не заполняется id
+2. в файле groups_bp не работает принт по группе print(list_groups)  и не работает вывод вот по этому адресу
+http://localhost:5000/groups/
+https://disk.yandex.ru/i/vw3UOIzhg6x0gg
+
+
