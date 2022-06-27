@@ -16,7 +16,7 @@ from flask import Flask
 
 class Config:
     DEBUG = True
-    # SQLALCHEMY_DATABASE_URI = f"postgresql+psycopg2://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+    SQLALCHEMY_DATABASE_URI = f"postgresql+psycopg2://postgres:123@127.0.0.1:5432/postgres"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
     # JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
