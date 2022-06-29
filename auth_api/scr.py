@@ -12,7 +12,7 @@ with app.app_context():
     id = uuid.uuid4()
     login = "first_user"
     email = "firstuser@ya.ru"
-    password_hash = "fff"
+    # password_hash = "fff"
     full_name = "first_useruu"
     phone = "123456789"
     avatar_link = 'firstuser@ya.ru'
@@ -24,7 +24,7 @@ with app.app_context():
         id = id,
         login=login,
         email=email,
-        password_hash=password_hash,
+        # password_hash=password_hash,
         full_name=full_name,
         phone=phone,
         avatar_link=avatar_link,
@@ -32,6 +32,9 @@ with app.app_context():
         created_at=created_at,
         updated_at=updated_at
     )
+
+    # Set password separately because we want to specify password, not password hash
+    new_user.password = '123'
 
     #Данные для заполения Групп
     id = uuid.uuid4()
@@ -43,7 +46,7 @@ with app.app_context():
         name=name,
         description=description,
     )
-
+    # print(new_user.id, new_group.id)
     db.session.add(new_user)
     db.session.add(new_group)
     db.session.commit()
