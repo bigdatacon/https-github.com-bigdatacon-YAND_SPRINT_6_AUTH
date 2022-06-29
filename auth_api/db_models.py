@@ -105,11 +105,11 @@ class User(db.Model):
             return (
                 History.query.filter(History.user_id == self.id)
                 .filter(History.timestamp >= since)
-                .order_by(History.timestamp.desc())
+                .order_by(History.created_at.desc())
             )
         else:
             return History.query.filter(History.user_id == self.id).order_by(
-                History.timestamp.desc()
+                History.created_at.desc()
             )
 
 
@@ -186,7 +186,7 @@ class History(db.Model):
     )
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("auth.user.id"))
     useragent = db.Column(db.String, nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
 
     def __repr__(self):
         return f"<History {self.useragent}>"
@@ -196,5 +196,5 @@ class History(db.Model):
             "id": self.id,
             "user_id": self.user_id,
             "useragent": self.useragent,
-            "timestamp": self.timestamp.isoformat(),
+            "timestamp": self.created_at.isoformat(),
         }

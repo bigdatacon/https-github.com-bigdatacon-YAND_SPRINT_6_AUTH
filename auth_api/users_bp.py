@@ -86,7 +86,7 @@ def login():
         if user:
             # Добавить информацию о входе в историю
             history = History(
-                user_id=user.id, useragent="unknown", timestamp=datetime.now()
+                user_id=user.id, useragent="unknown", created_at=datetime.datetime.now()
             )
             db.session.add(history)
             db.session.commit()

@@ -1,6 +1,7 @@
 # http://localhost:5000/groups/test
 # http://localhost:5000/groups/test_hello/
 # http://localhost:5000/groups/
+from flask_jwt_extended import JWTManager
 from flask import Blueprint, render_template, request
 from flask.json import jsonify
 from auth_config import Config, db
@@ -29,7 +30,8 @@ def create_app():
 
     # engine = db.create_engine(Config.SQLALCHEMY_DATABASE_URI, {})
     # engine.execute("CREATE SCHEMA IF NOT EXISTS auth;")
-    # jwt.init_app(app)
+    jwt = JWTManager()
+    jwt.init_app(app)
     # migrate_obj.init_app(app, db)
 
     return app
