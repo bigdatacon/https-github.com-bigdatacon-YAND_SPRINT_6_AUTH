@@ -1,10 +1,12 @@
 # http://localhost:5000/groups/test
 # http://localhost:5000/groups/test_hello/
-# http://localhost:5000/auth/groups/
+# http://localhost:5000/groups/
 from flask import Blueprint, render_template, request
 from flask.json import jsonify
+from flask_jwt_extended import JWTManager
 from auth_config import Config, db
 from groups_bp import groups_bp
+from users_bp import users_bp
 """
 Основной модуль
 """
@@ -20,6 +22,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config())
     app.register_blueprint(groups_bp, url_prefix=f"/groups")
+    app.register_blueprint(users_bp, url_prefix=f"/users")
     db.init_app(app)
     # app.register_blueprint(users_bp, url_prefix=f"{BASE_PATH}/users")
     # app.register_blueprint(test_bp, url_prefix="/test")
@@ -27,8 +30,9 @@ def create_app():
 
     # engine = db.create_engine(Config.SQLALCHEMY_DATABASE_URI, {})
     # engine.execute("CREATE SCHEMA IF NOT EXISTS auth;")
-    # jwt.init_app(app)
     # migrate_obj.init_app(app, db)
+    jwt = JWTManager()
+    jwt.init_app(app)
 
     return app
 

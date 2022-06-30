@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS auth.user (
     id uuid PRIMARY KEY,
     login text UNIQUE NOT NULL,
     email text UNIQUE NOT NULL,
-    password text NOT NULL,
+    password_hash text NOT NULL,
     full_name text NOT NULL,
     phone text,
     avatar_link text,
@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS auth.user_group_rel (
 CREATE TABLE IF NOT EXISTS auth.history (
     id uuid PRIMARY KEY,
     user_id uuid NOT NULL,
-    user_agent text,
+--    user_agent text,
+    useragent text,
     created_at timestamp with time zone
 );

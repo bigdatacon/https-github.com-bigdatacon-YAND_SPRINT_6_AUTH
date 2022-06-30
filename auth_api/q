@@ -1,3 +1,6 @@
+0. Адрес Репо коллег https://github.com/mbr55aa/Auth_sprint_2_new
+
+
 1. в src по дефорту не заполняется id
 2. в файле groups_bp не работает принт по группе print(list_groups)  и не работает вывод вот по этому адресу
 http://localhost:5000/groups/

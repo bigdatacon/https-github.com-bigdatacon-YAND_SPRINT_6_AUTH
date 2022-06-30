@@ -1,0 +1,24 @@
+#1 Как все запускается
+Сначала нужно запустить сервер Postgres. Легче всего сделать это через его докер-образ
+командой docker run --name auth-postgres -d --rm -e POSTGRES_PASSWORD=123 -p 5432:5432 postgres
+
+Потом инициализировать базу psql --username=postgres --host=127.0.0.1 --port=5432 postgres < db_schema.sql
+
+#2 Робота с логином юзера:
+---- Параметры login и password передаются странице /login/ как GET-параметры в строке запроса, хотя и методом POST. Это вообще потом стоит исправить. Сейчас для входа в систему нужно командовать
+ans = requests.post("http://127.0.0.1:5000/users/login?login=first_user&password=123")
+После этого команда ans.json() выведет на экран сгенерированные токены
+
+--- Для обращения к refresh нужно использовать команду
+ans = requests.post("http://127.0.0.1:5000/users/refresh", headers={'Authorization': f"Bearer {access_token}"})
+Где access_token - это строка access_token или refresh_token (сгодится любая из двух - и это вообще странно), возвращенная в ответе на запрос к /login. В ответ на /refresh вновь возвращается новая пара токенов
+Работает, хотя в теории насколько я помню предполагалось, что refresh будет происхдить только по refresh_token и он будет одноразовым
+- Пример с уже полученным access_token:
+ans = requests.post("http://127.0.0.1:5000/users/refresh", headers={'Authorization': f"Bearer {'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY1NjU3NjkxMSwianRpIjoiNmViN2Q2MjktNzY4ZS00OTQyLWEzMzYtYTE3OTdjMzViMTkwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImY2MjliMTVmLWRjODMtNDNkNS04NTcxLTFjOWRhZmM
+xNjYyZSIsIm5iZiI6MTY1NjU3NjkxMSwiZXhwIjoxNjU2NTgwNTExfQ.XTi7BC0HBYBd4fSi3LxAtUgCJ9wWQAo9NCQDBQyv8vc'}"})
+
+
+
+'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY1NjU3NjkxMSwianRpIjoiNmViN2Q2Mjkt\
+NzY4ZS00OTQyLWEzMzYtYTE3OTdjMzViMTkwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImY2MjliMTVmLWRjODMtNDNkNS04NTcxLTFjOWRhZmM\
+xNjYyZSIsIm5iZiI6MTY1NjU3NjkxMSwiZXhwIjoxNjU2NTgwNTExfQ.XTi7BC0HBYBd4fSi3LxAtUgCJ9wWQAo9NCQDBQyv8vc'
