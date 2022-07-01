@@ -104,12 +104,14 @@ class User(db.Model):
         if since:
             return (
                 History.query.filter(History.user_id == self.id)
+                # .filter(History.timestamp >= since)
                 .filter(History.created_at >= since)
                 # .order_by(History.timestamp.desc())
                 .order_by(History.created_at.desc())
             )
         else:
             return History.query.filter(History.user_id == self.id).order_by(
+                # History.timestamp.desc()
                 History.created_at.desc()
             )
 
