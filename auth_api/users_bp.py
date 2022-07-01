@@ -1,4 +1,5 @@
 from auth_config import Config, db
+# from auth_config import  jwt, jwt_redis
 from flask import Blueprint, render_template, request
 from flask.json import jsonify
 from http import HTTPStatus
