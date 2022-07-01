@@ -13,3 +13,56 @@ ans = requests.post("http://127.0.0.1:5000/users/login?login=first_user&password
 ans = requests.post("http://127.0.0.1:5000/users/refresh", headers={'Authorization': f"Bearer {access_token}"})
 Где access_token - это строка access_token или refresh_token (сгодится любая из двух - и это вообще странно), возвращенная в ответе на запрос к /login. В ответ на /refresh вновь возвращается новая пара токенов
 Работает, хотя в теории насколько я помню предполагалось, что refresh будет происхдить только по refresh_token и он будет одноразовым
+
+
+
+
+
+#3для регистр
+def register():
+
+registr = requests.post("http://127.0.0.1:5000/users/register", json = {
+        "id" : str(uuid.uuid4()),
+        "login" : "second_user",
+        "email" : "seconduserupdate@ya.ru",
+        "password_hash" : "fff",
+        "full_name" : "second_useruu",
+        "phone" : "123456789",
+        "avatar_link" : 'seconduser@ya.ru',
+        "address" : 'MSC',
+        "created_at" : str(datetime.datetime.now()),
+        "updated_at" : str(datetime.datetime.now())
+    }
+)
+
+
+#4 для update:
+
+#id = uuid.uuid4()
+
+account = requests.post("http://127.0.0.1:5000/users/account/", json = {
+        "id" : str(uuid.uuid4()),
+        "login" : "second_user",
+        "email" : "seconduserupdatereal@ya.ru",
+        "password_hash" : "fff",
+        "full_name" : "second_useruu",
+        "phone" : "123456789",
+        "avatar_link" : 'seconduser@ya.ru',
+        "address" : 'MSC',
+        "created_at" : str(datetime.datetime.now()),
+        "updated_at" : str(datetime.datetime.now())
+    }
+)
+
+
+
+token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY1NjY4MjUzNiwianRpIjoiNjJiODIzMGQtMTI5NC00\
+YjAzLWI3ZGItNDQwNzVlYTk5Mzg2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImY2MjliMTVmLWRjODMtNDNkNS04NTcxLTFjOWRhZmM\
+xNjYyZSIsIm5iZiI6MTY1NjY4MjUzNiwiZXhwIjoxNjU2Njg2MTM2fQ.S4XPOW8B7WpzsA2Ch6vcvzOZru5v6CzMusfT7FzF4hE'
+
+
+
+#5 проверка хистори :
+/history
+
+ans = requests.get("http://127.0.0.1:5000/users/history", headers={'Authorization': f"Bearer {token}"})
