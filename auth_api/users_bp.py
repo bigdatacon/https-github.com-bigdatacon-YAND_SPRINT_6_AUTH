@@ -1,5 +1,5 @@
 from auth_config import Config, db
-# from auth_config import  jwt, jwt_redis
+from auth_config import  jwt, jwt_redis
 from flask import Blueprint, render_template, request
 from flask.json import jsonify
 from http import HTTPStatus
@@ -17,7 +17,7 @@ from auth_config import db
 from password_hash import check_password, hash_password
 
 users_bp = Blueprint("users_bp", __name__)
-# jwt_redis_blocklist = jwt_redis
+jwt_redis_blocklist = jwt_redis
 
 @users_bp.route("/", methods=["GET"])
 def list_users():
@@ -122,21 +122,21 @@ def refresh():
     )
 
 
-# @users_bp.route("/logout", methods=["DELETE"])
-# def logout():
-#     """
-#     Выход пользователя из аккаунта
-#     """
-#     try:
-#         verify_jwt_in_request()
-#     except Exception as ex:
-#         return (jsonify({"msg": f"Bad access token: {ex}"}), HTTPStatus.UNAUTHORIZED)
-#     jti = get_jwt()["jti"]
-#     jwt_redis_blocklist.set(jti, "", ex=Config.ACCESS_EXPIRES)
-#     return (
-#         jsonify(msg="Access token revoked"),
-#         HTTPStatus.OK,
-#     )
+@users_bp.route("/logout", methods=["DELETE"])
+def logout():
+    """
+    Выход пользователя из аккаунта
+    """
+    try:
+        verify_jwt_in_request()
+    except Exception as ex:
+        return (jsonify({"msg": f"Bad access token: {ex}"}), HTTPStatus.UNAUTHORIZED)
+    jti = get_jwt()["jti"]
+    jwt_redis_blocklist.set(jti, "", ex=Config.ACCESS_EXPIRES)
+    return (
+        jsonify(msg="Access token revoked"),
+        HTTPStatus.OK,
+    )
 
 @users_bp.route("/account/", methods=["POST"])
 def update():
