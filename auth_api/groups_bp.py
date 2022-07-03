@@ -8,6 +8,7 @@ from auth_config import db
 from flask import Blueprint, render_template, request
 from flask.json import jsonify
 from decorators import admin_required
+import datetime
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
@@ -71,10 +72,6 @@ def create_group():
 
 
 
-
-
-
-
 @groups_bp.route("/<group_id>/", methods=["GET"])
 def get_group(group_id):
     """
@@ -119,6 +116,14 @@ def update_group(group_id):
     db.session.commit()
     return jsonify({})
 
+# change_group = requests.post("http://127.0.0.1:5000/groups/", json = {
+#         "id" : str(uuid.uuid4()),
+#         "name" : "second_group",
+#         "description" : "secondtestgroup_change",
+#     }
+# )
+
+
 
 
 @groups_bp.route("/<group_id>/users/", methods=["GET"])
@@ -162,6 +167,22 @@ def add_group_user(group_id):
     db.session.add(group)
     db.session.commit()
     return jsonify({"result": f"User {user_id} added to group {group_id}"})
+
+#проверка add_group_user
+# add_group_user = requests.post("http://localhost:5000/groups/d702a711-a9a3-436b-b226-8a7e4e1734f7/users/", json = {
+#         "id" : str(uuid.uuid4()),
+#         "login" : "second_user",
+#         "email" : "seconduserupdatereal@ya.ru",
+#         "password_hash" : "fff",
+#         "full_name" : "second_useruu",
+#         "phone" : "123456789",
+#         "avatar_link" : 'seconduser@ya.ru',
+#         "address" : 'MSC',
+#         "created_at" : str(datetime.datetime.now()),
+#         "updated_at" : str(datetime.datetime.now())
+#     }
+# )
+
 
 
 
