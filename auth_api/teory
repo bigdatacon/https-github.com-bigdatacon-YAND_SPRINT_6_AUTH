@@ -1,4 +1,9 @@
+
 #1 Как все запускается
+# как запустить редис
+docker run --name auth-redis --rm -d -p 6379:6379 redis
+
+
 Сначала нужно запустить сервер Postgres. Легче всего сделать это через его докер-образ
 командой docker run --name auth-postgres -d --rm -e POSTGRES_PASSWORD=123 -p 5432:5432 postgres
 
@@ -66,3 +71,14 @@ xNjYyZSIsIm5iZiI6MTY1NjY4MjUzNiwiZXhwIjoxNjU2Njg2MTM2fQ.S4XPOW8B7WpzsA2Ch6vcvzOZ
 /history
 
 ans = requests.get("http://127.0.0.1:5000/users/history", headers={'Authorization': f"Bearer {token}"})
+
+
+#6проверка logaut
+
+token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY1Njc4NzY4Miwia\
+nRpIjoiM2U5YTI0YjUtYmRjYS00ZDYxLWFmMGQtMzkxNTEzOTk4OWE4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImY2MjliMTVmLWRjODMtNDNkNS04NTcxLTFjOWRhZmM\
+xNjYyZSIsIm5iZiI6MTY1Njc4NzY4MiwiZXhwIjoxNjU2NzkxMjgyfQ.tipTxrQH2DqwUmiImQbuW9Dy1Xu2TjSHuZbWqfqrd2s'
+
+
+ans = requests.delete("http://127.0.0.1:5000/users/logout", headers={'Authorization': f"Bearer {token}"})
+
