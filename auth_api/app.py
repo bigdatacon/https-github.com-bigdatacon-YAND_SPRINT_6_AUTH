@@ -4,7 +4,7 @@
 from flask import Blueprint, render_template, request
 from flask.json import jsonify
 from flask_jwt_extended import JWTManager
-from auth_config import Config, db
+from auth_config import Config, db, jwt
 from groups_bp import groups_bp
 from users_bp import users_bp
 """
@@ -31,7 +31,7 @@ def create_app():
     # engine = db.create_engine(Config.SQLALCHEMY_DATABASE_URI, {})
     # engine.execute("CREATE SCHEMA IF NOT EXISTS auth;")
     # migrate_obj.init_app(app, db)
-    jwt = JWTManager()
+    # jwt = JWTManager()
     jwt.init_app(app)
 
     return app
