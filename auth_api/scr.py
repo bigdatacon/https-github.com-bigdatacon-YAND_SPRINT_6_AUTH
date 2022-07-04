@@ -73,17 +73,17 @@ with app.app_context():
 
     #!!!!!!!!!!!!!!! Закоментировано то что уже добавлено, если на компе не добавилена admin_group то строку 78 нужно раскомментировать
     # print(new_user.id, new_group.id)
-    # db.session.add(new_user)
-    # db.session.add(new_group)
-    # db.session.add(admin_group)
-    # db.session.add(admin_user)
-    # db.session.commit()
+    db.session.add(new_user)
+    db.session.add(new_group)
+    db.session.add(admin_group)
+    db.session.add(admin_user)
+    db.session.commit()
 
     #добавляю admin_user в admin_group:
     # group_admin = Group.query.get("cfc7c727-011e-4cb7-8754-6f9b9f82278a")
     # print(f' eto group_admin : {group_admin}')
     admin_group.users.append(admin_user)
-    # db.session.add(admin_group)
+    db.session.add(admin_group)
     db.session.commit()
     print(f'admin_group.users : {admin_group.users}')
 
