@@ -169,17 +169,30 @@ def add_group_user(group_id):
     return jsonify({"result": f"User {user_id} added to group {group_id}"})
 
 #проверка add_group_user
-# add_group_user = requests.post("http://localhost:5000/groups/d702a711-a9a3-436b-b226-8a7e4e1734f7/users/", json = {
-#         "id" : str(uuid.uuid4()),
-#         "login" : "second_user",
-#         "email" : "seconduserupdatereal@ya.ru",
-#         "password_hash" : "fff",
-#         "full_name" : "second_useruu",
-#         "phone" : "123456789",
-#         "avatar_link" : 'seconduser@ya.ru',
+# add_group_user = requests.post("http://localhost:5000/groups/cfc7c727-011e-4cb7-8754-6f9b9f82278a/users/", json = {
+#         "id" : "78491656-aee7-4c33-99dc-fb0871d7e461",
+#         "login" : "admin",
+#         "email" : "adminuser@ya.ru",
+#         "full_name" : "admin_useruu",
+#         "phone" : "12345677",
+#         "avatar_link" : "adminuser@ya.ru",
 #         "address" : 'MSC',
-#         "created_at" : str(datetime.datetime.now()),
-#         "updated_at" : str(datetime.datetime.now())
+#         "created_at" : "Mon, 04 Jul 2022 20:06:38 GMT",
+#         "updated_at" : "Mon, 04 Jul 2022 20:06:38 GMT"
+#     }
+# )
+
+# add_group_user = requests.post("http://localhost:5000/groups/cfc7c727-011e-4cb7-8754-6f9b9f82278a/users/", json = {
+#         "id" : "f629b15f-dc83-43d5-8571-1c9dafc1662e",
+#         "login" : "first_user",
+#         "email" : "firstuser@ya.ru",
+#         # "password_hash" : "fff",
+#         "full_name" : "first_useruu",
+#         "phone" : "123456789",
+#         "avatar_link" : 'firstuser@ya.ru',
+#         "address" : 'MSC',
+#         "created_at" : "Thu, 30 Jun 2022 11:14:58 GMT",
+#         "updated_at" : "Thu, 30 Jun 2022 11:14:58 GMT"
 #     }
 # )
 

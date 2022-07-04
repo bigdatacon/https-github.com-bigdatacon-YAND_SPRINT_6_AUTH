@@ -46,9 +46,37 @@ with app.app_context():
         name=name,
         description=description,
     )
+
+    #cоздаю группу admin
+    admin_group = Group(
+        id = uuid.uuid4(),
+        name='admin',
+        description='admin',
+    )
+
+    #создаю юзера admin
+    admin_user = User(
+        id = uuid.uuid4(),
+        login="admin",
+        email="adminuser@ya.ru",
+        # password_hash=password_hash,
+        full_name="admin_useruu",
+        phone="12345677",
+        avatar_link="adminuser@ya.ru",
+        address="MSK",
+        created_at=datetime.datetime.now(),
+        updated_at=datetime.datetime.now()
+    )
+    # Set password separately because we want to specify password, not password hash
+    admin_user.password = '123'
+
+
+    #!!!!!!!!!!!!!!! Закоментировано то что уже добавлено, если на компе не добавилена admin_group то строку 78 нужно раскомментировать
     # print(new_user.id, new_group.id)
-    db.session.add(new_user)
-    db.session.add(new_group)
+    # db.session.add(new_user)
+    # db.session.add(new_group)
+    # db.session.add(admin_group)
+    db.session.add(admin_user)
     db.session.commit()
 
     print(new_user.id, new_group.id)
