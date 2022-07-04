@@ -116,8 +116,8 @@ def update_group(group_id):
     db.session.commit()
     return jsonify({})
 
-# change_group = requests.post("http://127.0.0.1:5000/groups/", json = {
-#         "id" : str(uuid.uuid4()),
+# change_group = requests.put("http://127.0.0.1:5000/groups/d702a711-a9a3-436b-b226-8a7e4e1734f7", json = {
+#         "id" : "d702a711-a9a3-436b-b226-8a7e4e1734f7",
 #         "name" : "second_group",
 #         "description" : "secondtestgroup_change",
 #     }

@@ -57,7 +57,7 @@ with app.app_context():
     #создаю юзера admin
     admin_user = User(
         id = uuid.uuid4(),
-        login="admin",
+        login="admin_sec",
         email="adminuser@ya.ru",
         # password_hash=password_hash,
         full_name="admin_useruu",
@@ -76,7 +76,17 @@ with app.app_context():
     # db.session.add(new_user)
     # db.session.add(new_group)
     # db.session.add(admin_group)
-    db.session.add(admin_user)
+    # db.session.add(admin_user)
+    # db.session.commit()
+
+    #добавляю admin_user в admin_group:
+    # group_admin = Group.query.get("cfc7c727-011e-4cb7-8754-6f9b9f82278a")
+    # print(f' eto group_admin : {group_admin}')
+    admin_group.users.append(admin_user)
+    # db.session.add(admin_group)
     db.session.commit()
+    print(f'admin_group.users : {admin_group.users}')
+
+
 
     print(new_user.id, new_group.id)
