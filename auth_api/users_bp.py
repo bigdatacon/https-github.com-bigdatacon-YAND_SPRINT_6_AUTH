@@ -1,3 +1,5 @@
+from auth_config import Config, db
+from auth_config import  jwt, jwt_redis
 from flask import Blueprint, render_template, request
 from flask.json import jsonify
 from http import HTTPStatus
@@ -12,9 +14,10 @@ from flask_jwt_extended import (
     verify_jwt_in_request,
 )
 from auth_config import db
+from password_hash import check_password, hash_password
 
 users_bp = Blueprint("users_bp", __name__)
-
+jwt_redis_blocklist = jwt_redis
 
 @users_bp.route("/", methods=["GET"])
 def list_users():
@@ -100,7 +103,7 @@ def login():
     )
 
 
-@jwt_required(refresh=True)
+# @jwt_required(refresh=True)
 @users_bp.route("/refresh", methods=["POST"])
 def refresh():
     """
@@ -119,62 +122,42 @@ def refresh():
     )
 
 
-@users_bp.route("/test_post", methods=["POST"])
-def test_post():
+@users_bp.route("/logout", methods=["DELETE"])
+def logout():
     """
-    test
+    Выход пользователя из аккаунта
     """
-    data = request.form
-    name = data.get('name')
-    return name
+    try:
+        verify_jwt_in_request()
+    except Exception as ex:
+        return (jsonify({"msg": f"Bad access token: {ex}"}), HTTPStatus.UNAUTHORIZED)
+    jti = get_jwt()["jti"]
+    jwt_redis_blocklist.set(jti, "", ex=Config.ACCESS_EXPIRES)
+    return (
+        jsonify(msg="Access token revoked"),
+        HTTPStatus.OK,
+    )
 
-
-
-@users_bp.route("/test_get", methods=["GET"])
-def test_get():
+@users_bp.route("/account/", methods=["POST"])
+def update():
     """
-    test get
+    Обновление данных пользователя
     """
-
-    return request.args.get("page_number")
-
-
-# @users_bp.route("/logout", methods=["DELETE"])
-# def logout():
-#     """
-#     Выход пользователя из аккаунта
-#     """
-#     try:
-#         verify_jwt_in_request()
-#     except Exception as ex:
-#         return (jsonify({"msg": f"Bad access token: {ex}"}), HTTPStatus.UNAUTHORIZED)
-#     jti = get_jwt()["jti"]
-#     jwt_redis_blocklist.set(jti, "", ex=Config.ACCESS_EXPIRES)
-#     return (
-#         jsonify(msg="Access token revoked"),
-#         HTTPStatus.OK,
-#     )
-
-# @users_bp.route("/account/", methods=["POST"])
-# def update():
-#     """
-#     Обновление данных пользователя
-#     """
-#     try:
-#         verify_jwt_in_request()
-#     except Exception as ex:
-#         return jsonify({"msg": f"Bad access token: {ex}"}), HTTPStatus.UNAUTHORIZED
-#     identity = get_jwt_identity()
-#     user = User.query.get(identity)
-#     if user is None:
-#         return jsonify({"error": "user not found"}), HTTPStatus.NOT_FOUND
-#     obj = request.json
-#     obj["password"] = hash_password(obj["password"])
-#     updated_user = user.from_json(obj)
-#     return (
-#         jsonify(msg=f"Update success: {updated_user}"),
-#         HTTPStatus.OK,
-#     )
+    try:
+        verify_jwt_in_request()
+    except Exception as ex:
+        return jsonify({"msg": f"Bad access token: {ex}"}), HTTPStatus.UNAUTHORIZED
+    identity = get_jwt_identity()
+    user = User.query.get(identity)
+    if user is None:
+        return jsonify({"error": "user not found"}), HTTPStatus.NOT_FOUND
+    obj = request.json
+    obj["password"] = hash_password(obj["password"])
+    updated_user = user.from_json(obj)
+    return (
+        jsonify(msg=f"Update success: {updated_user}"),
+        HTTPStatus.OK,
+    )
 
 #d1c8af16-2c01-4af1-8b87-40145ab2dceb
 @users_bp.route("/<user_id>/", methods=["GET"])
@@ -209,3 +192,29 @@ def get_user_history(**kwargs):
             .items
         )
     return jsonify([h.to_json() for h in history])
+
+
+@jwt.token_in_blocklist_loader
+def check_if_token_is_revoked(jwt_header, jwt_payload):
+    jti = jwt_payload["jti"]
+    token_in_redis = jwt_redis_blocklist.get(jti)
+    return token_in_redis is not None
+
+
+"""тестовые функции"""
+@users_bp.route("/test_post", methods=["POST"])
+def test_post():
+    """
+    test
+    """
+    data = request.form
+    name = data.get('name')
+    return name
+
+@users_bp.route("/test_get", methods=["GET"])
+def test_get():
+    """
+    test get
+    """
+
+    return request.args.get("page_number")

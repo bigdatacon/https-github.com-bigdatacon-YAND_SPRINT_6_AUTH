@@ -4,7 +4,7 @@
 from flask import Blueprint, render_template, request
 from flask.json import jsonify
 from flask_jwt_extended import JWTManager
-from auth_config import Config, db
+from auth_config import Config, db , jwt
 from groups_bp import groups_bp
 from users_bp import users_bp
 """

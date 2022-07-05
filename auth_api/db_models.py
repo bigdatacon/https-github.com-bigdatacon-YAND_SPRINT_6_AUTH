@@ -89,7 +89,7 @@ class User(db.Model):
         URL для доступа к информации о пользователе, с указанным
         префиксом.
         """
-        obj = {"id": self.id, "login": self.login, "email": self.email, "phone": self.phone}
+        obj = {"id": self.id, "login": self.login, "email": self.email, "phone": self.phone, "created_at": self.created_at, "updated_at": self.updated_at}
         if url_prefix:
             obj["url"] = f"{url_prefix}/user/account/{self.login}"
         return obj
@@ -104,13 +104,15 @@ class User(db.Model):
         if since:
             return (
                 History.query.filter(History.user_id == self.id)
-                .filter(History.timestamp >= since)
+                # .filter(History.timestamp >= since)
+                .filter(History.created_at >= since)
                 # .order_by(History.timestamp.desc())
                 .order_by(History.created_at.desc())
             )
         else:
             return History.query.filter(History.user_id == self.id).order_by(
-                History.timestamp.desc()
+                # History.timestamp.desc()
+                History.created_at.desc()
             )
 
 
