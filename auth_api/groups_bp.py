@@ -111,10 +111,10 @@ def update_group(group_id):
     if "name" in request.json:
         group.name = request.json["name"]
     if "description" in request.json:
-        group.name = request.json["description"]
+        group.description = request.json["description"]
     db.session.add(group)
     db.session.commit()
-    return jsonify({})
+    return jsonify({'result': 'ok'})
 
 # change_group = requests.put("http://127.0.0.1:5000/groups/d702a711-a9a3-436b-b226-8a7e4e1734f7", json = {
 #         "id" : "d702a711-a9a3-436b-b226-8a7e4e1734f7",
