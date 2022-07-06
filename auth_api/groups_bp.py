@@ -104,8 +104,9 @@ def del_group(group_id):
 
 
 
-@admin_required()
+
 @groups_bp.route("/<group_id>/", methods=["PUT"])
+@admin_required()
 def update_group(group_id):
     """
     Изменить группу
@@ -124,7 +125,7 @@ def update_group(group_id):
     return jsonify({'result': 'ok'})
 
 # change_group = requests.put("http://127.0.0.1:5000/groups/f4afda97-21ba-4fc2-9254-673f1bf997a3/", json = {
-#         "name" : "second_group_changed",
+#         "name" : "second_group_changed_two",
 #         "description" : "secondtestgroup",
 #     }, headers={'Authorization': f"Bearer {token}"})
 
@@ -229,8 +230,9 @@ def get_membership(group_id, user_id):
 #проверка http://localhost:5000/groups/d702a711-a9a3-436b-b226-8a7e4e1734f7/user/f629b15f-dc83-43d5-8571-1c9dafc1662e
 #проверка http://localhost:5000/groups/5d8f34d6-c16a-4dbd-9e4a-b5a1b628efee/user/ccccfd00-3eb3-4dc8-ac12-4c07cdb62722
 
-@admin_required()
+
 @groups_bp.route("/<group_id>/user/<user_id>", methods=["DELETE"])
+@admin_required()
 def del_membership(group_id, user_id):
     """
     Удалить пользователя из группы

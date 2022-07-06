@@ -140,32 +140,30 @@ services:
 #      - postgres_auth
 #      - redis_auth
 
+  postgres_auth:
+    image: postgres:13-alpine
+    container_name: postgres_auth
+    env_file:
+      - db_auth.env
+    volumes:
+      - ./auth_api/postgres_auth/pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - movies_network
 
-
-#  postgres_auth:
-#    image: postgres:13-alpine
-#    container_name: postgres_auth
-#    env_file:
-#      - db_auth.env
-#    volumes:
-#      - ./auth_api/postgres_auth/pgdata:/var/lib/postgresql/data
-#    ports:
-#      - "5432:5432"
-#    networks:
-#      - movies_network
-#
-#  redis_auth:
-#    build:
-#      context: auth_api/redis_auth
-#      dockerfile: Dockerfile
-#    container_name: redis_auth
-#    volumes:
-#      - ./auth_api/redis_auth/conf/etc:/usr/local/etc/redis
-#    #ports:
-#    #- "6379:6379"
-#    networks:
-#      - movies_network
-#    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+  redis_auth:
+    build:
+      context: redis_auth
+      dockerfile: Dockerfile
+    container_name: redis_auth
+    volumes:
+      - ./redis_auth/conf/etc:/usr/local/etc/redis
+    #ports:
+    #- "6379:6379"
+    networks:
+      - movies_network
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
 
 #volumes:
 #  static_volume:
