@@ -136,6 +136,8 @@ services:
       - .:/auth_api
     networks:
       - movies_network
+    ports:
+      - "5000:5000"
 #    depends_on:
 #      - postgres_auth
 #      - redis_auth
@@ -146,7 +148,7 @@ services:
     env_file:
       - db_auth.env
     volumes:
-      - ./auth_api/postgres_auth/pgdata:/var/lib/postgresql/data
+      - pgdata_volume:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
@@ -165,8 +167,8 @@ services:
       - movies_network
     command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
 
-#volumes:
-#  static_volume:
+volumes:
+  pgdata_volume:
 
 networks:
   movies_network:
