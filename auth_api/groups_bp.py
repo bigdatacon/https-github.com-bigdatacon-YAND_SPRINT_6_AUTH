@@ -73,7 +73,13 @@ def create_group():
 #         "name" : "second_group",
 #         "description" : "secondtestgroup",
 #     }, headers={'Authorization': f"Bearer {token}"})
-
+#
+# #через докер - localhost:5000
+# registr_group = requests.post("http://localhost:5000/groups/", json = {
+#         "id" : str(uuid.uuid4()),
+#         "name" : "second_group",
+#         "description" : "secondtestgroup",
+#     }, headers={'Authorization': f"Bearer {token}"})
 
 
 

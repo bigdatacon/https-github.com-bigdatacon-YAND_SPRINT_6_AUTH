@@ -75,9 +75,9 @@ ans = requests.get("http://127.0.0.1:5000/users/history", headers={'Authorizatio
 
 #6проверка logaut
 
-token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY1NzAzMDYw\
-OCwianRpIjoiZjJhODFkZWEtYzI0NS00MDgzLWI1ZWQtNGQ5MDQ1OWU1OGIyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImNjY2NmZDAwLTNlYjMtNGRjOC1hYzEyLTRjMDdjZGI\
-2MjcyMiIsIm5iZiI6MTY1NzAzMDYwOCwiZXhwIjoxNjU3MDM0MjA4fQ.CzZtsE9h0dPk7VLIeuj5umcMpvghM8kSSLbmrqt9plI'
+token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY1NzMwNDAzOCwianRp\
+IjoiOTRkNzA5OWUtYWEzYy00NzA0LThkNzQtZGUzYzRlMDlmYjM1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjJkNDE1MzEzLTYxOWMtNGQ4Ni05N2IyLTFiMDM3MTdhM\
+DNkMiIsIm5iZiI6MTY1NzMwNDAzOCwiZXhwIjoxNjU3MzA3NjM4fQ.8hzlobEPKS1etXgf0N8xjWJlSbCpr6GQ6CKgA-2kNQE'
 
 
 
@@ -85,3 +85,27 @@ ans = requests.delete("http://127.0.0.1:5000/users/logout", headers={'Authorizat
 
 #регистрирую admin_usera
 ans = requests.post("http://127.0.0.1:5000/users/login?login=admin_sec&password=123")
+
+#регистрация админ юзера через докер - важно писать localhost
+http://localhost:5000/users/login?login=admin_sec&password=123
+
+с другим паролем
+http://127.0.0.1:5000/users/login?login=admin_sec&password=postgres
+
+
+#7 Запуск из докера:
+После запуска докера:
+последовательность команд - ВЫПОЛНЯЕТСЯ 1 раз
+psql --username=postgres --host=127.0.0.1 --port=5432 postgres < db_schema.sql
+docker exec flask_auth_api python scr.py
+
+
+Проверка запросов в докере
+ans = requests.get("http://localhost:5000/users/")
+
+
+#8 Убить процесс который слушаеь порт
+Команда netstat -aon показывает список сетевых соединений и прослушиваемых портов, в ее выводе нужно отыскать строку с упоминанием порта 5000 - лучше всего с поvощью grep но это только через git bash
+netstat -aon | grep "5000"
+
+В крайнем правом столбце вывода netstat -aon будет идентификатор процесса. С его помощью можно принудительно завершить процесс командой taskkill /PID <число> /f
