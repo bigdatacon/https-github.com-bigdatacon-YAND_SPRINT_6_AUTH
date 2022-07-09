@@ -1,0 +1,15 @@
+1. Что проверяет этот участок:
+assert isinstance(data, list) в функции - если то что data есть лист, но ведь data  это json?:
+
+def test_group_list():
+    ans = requests.get(f"http://{AUTH_API_HOST}/v1/groups/")
+    assert ans.status_code == 200
+    data = ans.json()
+    assert isinstance(data, list)
+
+2. В докерфайла COPY utils /tests/utils   - в данном случае /tests/utils  - Это папка в докере? Так как в проекте нет таких папок?
+3. К папке test_bp где то идет обращение в коде?
+4. в файле conftest получения хоста таким образом : AUTH_API_HOST = os.getenv("AUTH_API_HOST", "flask_auth_api:5000")
+- правильно ли я понял что поскольку в папке тестов несколько env файлов, то программа сама понимает в каком файле искать что то по ключу - AUTH_API_HOST?
+- тут хост не 127.000 и не localhost  - верно ли я понимаю что так тоже будет работать если как захотел назвал - flask_auth_api?
+
