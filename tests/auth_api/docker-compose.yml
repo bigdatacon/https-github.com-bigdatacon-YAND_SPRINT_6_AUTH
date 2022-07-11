@@ -29,8 +29,6 @@ services:
   postgres_auth_test:
     image: postgres:13-alpine
     container_name: postgres_auth_test
-    volumes:
-      - ./pgdata2:/var/lib/postgresql/data
     env_file:
       - db_auth.env
     ports:
