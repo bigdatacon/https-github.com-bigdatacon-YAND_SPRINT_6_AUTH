@@ -1,8 +1,4 @@
 *.pyc
-<<<<<<< HEAD
-__pycache__
-=======
 __pycache__/
->>>>>>> db9f271b5c0938ee7d3ac57692279b266cfda96e
-pgdata
-pgdata2
+pgdata/
+pgdata2/
