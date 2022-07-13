@@ -7,6 +7,7 @@ from flask_jwt_extended import JWTManager
 from auth_config import Config, db , jwt
 from groups_bp import groups_bp
 from users_bp import users_bp
+from test_bp import test_bp
 """
 Основной модуль
 """
@@ -23,6 +24,7 @@ def create_app():
     app.config.from_object(Config())
     app.register_blueprint(groups_bp, url_prefix=f"/groups")
     app.register_blueprint(users_bp, url_prefix=f"/users")
+    app.register_blueprint(test_bp, url_prefix=f"/test")
     db.init_app(app)
     # app.register_blueprint(users_bp, url_prefix=f"{BASE_PATH}/users")
     # app.register_blueprint(test_bp, url_prefix="/test")
