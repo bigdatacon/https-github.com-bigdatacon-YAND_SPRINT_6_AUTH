@@ -11,11 +11,8 @@ services:
       - auth.env
     ports:
       - "5000:5000"
-#    volumes:
-#      - ../../auth_api/flask_app:/auth_api/flask_app
-#      - ../../auth_api:/auth_api
     volumes:
-      - .:/auth_api
+      - ../../auth_api:/auth_api
     networks:
       - movies_network
     deploy:
@@ -65,7 +62,7 @@ services:
         - tests.env
     networks:
       - movies_network
-    command: ["bash", "-c", "PYTHONPATH=. python scr.py && python utils/wait_for_api.py && pytest -s src/"]
+    command: ["bash", "-c", "PYTHONPATH=. python utils/wait_for_api.py && pytest -s src/"]
 
 
 volumes:
