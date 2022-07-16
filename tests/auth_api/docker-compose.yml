@@ -27,6 +27,7 @@ services:
     depends_on:
       - postgres_auth_test
       - redis_auth_test
+    command: ["python", "app.py", "--testing"]
 
   postgres_auth_test:
     image: postgres:13-alpine

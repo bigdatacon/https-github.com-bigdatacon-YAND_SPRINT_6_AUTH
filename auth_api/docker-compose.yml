@@ -138,6 +138,7 @@ services:
       - movies_network
     ports:
       - "5000:5000"
+    command: ["python", "app.py", "--working"]
 #    depends_on:
 #      - postgres_auth
 #      - redis_auth

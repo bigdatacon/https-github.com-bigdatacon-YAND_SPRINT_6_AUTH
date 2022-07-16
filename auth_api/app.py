@@ -4,6 +4,7 @@
 from flask import Blueprint, render_template, request
 from flask.json import jsonify
 from flask_jwt_extended import JWTManager
+from db_models import User, Group
 from auth_config import Config, db , jwt
 from groups_bp import groups_bp
 from users_bp import users_bp
@@ -11,6 +12,7 @@ from test_bp import test_bp
 """
 Основной модуль
 """
+import datetime
 import logging
 import os
 import shutil
@@ -58,8 +60,10 @@ def init_db(testing: bool = False):
     if testing:
         # For testing database, delete all data first
         logger.info("Deleting all existing data before running tests")
-        db.drop_all()
-    if Group.query.filter(name='admin').count() == 0:
+        User.query.delete()
+        Group.query.delete()
+        db.session.commit()
+    if Group.query.filter(Group.name=='admin').count() == 0:
         # For both testing and working database create admin group unless it already exists
         admin_group = Group(
             id = uuid.uuid4(),
@@ -69,15 +73,15 @@ def init_db(testing: bool = False):
         db.session.add(admin_group)
         logger.info("Admin group created")
     else:
-        admin_group = Group.query.filter(name='admin')[0]
+        admin_group = Group.query.filter(Group.name=='admin')[0]
         logger.info("Admin group already exists, unchanged")
     db.session.commit()
-    if User.query.filter(name='admin').count() == 0:
+    if User.query.filter(User.login=='admin').count() == 0:
         # For both testing and working database create admin user unless it already exists
         admin_user = User(
             id = uuid.uuid4(),
             login="admin",
-            email="admin@example.com",
+            email="admin@test.com",
             full_name="Admin",
             phone="8(123)4567890",
             address="MSK",
@@ -88,10 +92,10 @@ def init_db(testing: bool = False):
         db.session.add(admin_user)
         logger.info("Admin user created")
     else:
-        admin_user = User.query.filter(name='admin')[0]
+        admin_user = User.query.filter(User.login=='admin')[0]
         logger.info("Admin user already exists, unchanged")
     db.session.commit()
-    if admin_user in admin_group.users.all():
+    if admin_user in list(admin_group.users):
         logger.info("Admin user is already in admin group")
     else:
         admin_group.users.append(admin_user)
