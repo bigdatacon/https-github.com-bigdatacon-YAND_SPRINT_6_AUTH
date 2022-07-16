@@ -20,6 +20,9 @@ import uuid
 from flask import Flask
 
 
+logger = logging.getLogger("auth_api")
+
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config())
@@ -46,11 +49,15 @@ def init_db(testing: bool = False):
 
     In case of the testing database, clear all existing data first.
 
-    In case of working database, do nothing if database is currently not emply.
-    Otherwise, create the admin group and the admin user.
+    For both testing and working databases create admin group unless it already
+    exists, then create admin user unless it already exists and add admin user
+    to admin group if not already.
+
+    In case ot the testing database create a testing group and a testing user.
     """
     if testing:
         # For testing database, delete all data first
+        logger.info("Deleting all existing data before running tests")
         db.drop_all()
     if Group.query.filter(name='admin').count() == 0:
         # For both testing and working database create admin group unless it already exists
@@ -60,8 +67,11 @@ def init_db(testing: bool = False):
             description='admin'
         )
         db.session.add(admin_group)
+        logger.info("Admin group created")
     else:
         admin_group = Group.query.filter(name='admin')[0]
+        logger.info("Admin group already exists, unchanged")
+    db.session.commit()
     if User.query.filter(name='admin').count() == 0:
         # For both testing and working database create admin user unless it already exists
         admin_user = User(
@@ -76,8 +86,24 @@ def init_db(testing: bool = False):
         )
         admin_user.password = 'admin'
         db.session.add(admin_user)
-        admin_group.users.append(admin_user)
+        logger.info("Admin user created")
+    else:
+        admin_user = User.query.filter(name='admin')[0]
+        logger.info("Admin user already exists, unchanged")
     db.session.commit()
+    if admin_user in admin_group.users.all():
+        logger.info("Admin user is already in admin group")
+    else:
+        admin_group.users.append(admin_user)
+        logger.info("Admin user added to admin group")
+    db.session.commit()
+    if testing:
+        first_group = Group(
+            id = uuid.uuid4(),
+            name='first',
+            description='First testing group'
+        )
+        db.session.commit()
 
 
 if __name__ == "__main__":
@@ -88,6 +114,6 @@ if __name__ == "__main__":
         # При прогоне тестов удаляем прошлые данные из базы и создаем заново
         if len(sys.argv) == 2 and sys.argv[1] == "--testing":
             init_db(testing = True)
-        else:
+        elif len(sys.argv) == 2 and sys.argv[1] == "--working":
             init_db(testing = False)
         app.run(host="0.0.0.0")
