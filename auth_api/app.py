@@ -16,6 +16,7 @@ import os
 import shutil
 import sys
 import time
+import uuid
 from flask import Flask
 
 
@@ -39,15 +40,54 @@ def create_app():
     return app
 
 
+def init_db(testing: bool = False):
+    """
+    Initialize the database
+
+    In case of the testing database, clear all existing data first.
+
+    In case of working database, do nothing if database is currently not emply.
+    Otherwise, create the admin group and the admin user.
+    """
+    if testing:
+        # For testing database, delete all data first
+        db.drop_all()
+    if Group.query.filter(name='admin').count() == 0:
+        # For both testing and working database create admin group unless it already exists
+        admin_group = Group(
+            id = uuid.uuid4(),
+            name='admin',
+            description='admin'
+        )
+        db.session.add(admin_group)
+    else:
+        admin_group = Group.query.filter(name='admin')[0]
+    if User.query.filter(name='admin').count() == 0:
+        # For both testing and working database create admin user unless it already exists
+        admin_user = User(
+            id = uuid.uuid4(),
+            login="admin",
+            email="admin@example.com",
+            full_name="Admin",
+            phone="8(123)4567890",
+            address="MSK",
+            created_at=datetime.datetime.now(),
+            updated_at=datetime.datetime.now()
+        )
+        admin_user.password = 'admin'
+        db.session.add(admin_user)
+        admin_group.users.append(admin_user)
+    db.session.commit()
+
+
 if __name__ == "__main__":
     app = create_app()
 
     with app.app_context():
-        # # При прогоне тестов удаляем прошлые данные из базы и создаем заново
-        # if len(sys.argv) == 2 and sys.argv[1] == "--reinitialize":
-        #     db.drop_all()
-        # # Инициалиазции базы. Проверяем наличие таблицы пользователей
-        # if not insp.has_table("user", schema="auth"):
-        #     logging.info(f"initializing...")
-        #     db_initialize(app)
+        init_db()
+        # При прогоне тестов удаляем прошлые данные из базы и создаем заново
+        if len(sys.argv) == 2 and sys.argv[1] == "--testing":
+            init_db(testing = True)
+        else:
+            init_db(testing = False)
         app.run(host="0.0.0.0")
