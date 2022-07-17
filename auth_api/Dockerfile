@@ -15,4 +15,4 @@ WORKDIR /auth_api
 COPY requirements.txt /auth_api
 RUN pip install -r requirements.txt --no-cache-dir
 #ENTRYPOINT ["uwsgi", "--socket", "0.0.0.0:5000", "--protocol=http", "-w", "wsgi:app"]
-ENTRYPOINT ["python", "app.py"]
+#ENTRYPOINT ["python", "app.py"]
