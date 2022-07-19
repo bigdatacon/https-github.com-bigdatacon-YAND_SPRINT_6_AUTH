@@ -102,6 +102,19 @@ def init_db(testing: bool = False):
             name='first',
             description='First testing group'
         )
+        first_user = User(
+            id = uuid.uuid4(),
+            login="nobody",
+            email="nobody@test.com",
+            full_name="Nobody",
+            phone="8(123)4567891",
+            address="MSK",
+            created_at=datetime.datetime.now(),
+            updated_at=datetime.datetime.now()
+        )
+        first_user.password = os.getenv('NOBODY_PASSWORD')
+        db.session.add(first_user)
+        db.session.add(first_group)
         db.session.commit()
 
 if __name__ == "__main__":
