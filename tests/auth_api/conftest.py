@@ -61,7 +61,7 @@ def seven_little_guys(request):
         """Удаляем тестовую группу, но входящие в нее пользователи не удаляются"""
         ans = requests.delete(
             # f"http://{AUTH_API_HOST}/v1/groups/{gid}/",
-            "http://{AUTH_API_HOST}/groups/{gid}/",
+            f"http://{AUTH_API_HOST}/groups/{gid}/",
             headers={"Authorization": "Bearer " + token},
         )
         assert ans.status_code == 200
