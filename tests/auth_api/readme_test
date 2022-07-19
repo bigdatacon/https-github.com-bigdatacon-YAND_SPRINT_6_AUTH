@@ -1,0 +1,27 @@
+1 Как запускать тесты
+Запускать также как раньше - docker-compose build далее docker-compose up
+
+Это в auth_api для запуска сервера и те же команды в tests/auth_api для запуска тестов
+
+После запуска докеров выполнить инициализацию базы (1 раз) потом остановить контейнеры и потом запустить снова
+psql --username=postgres --host=127.0.0.1 --port=5432 postgres < db_schema.sql+
+
+
+ВОПРОСЫ ПО КОДУ ДРУГОГО УЧАСТНИКА
+1. в файле :tests/functional/src/test_role.py тестовые данные заливаются через функцию get_or_create но я не
+нашел нигде ни импорта этой функции ни ее самой:
+user, _ = get_or_create(User, **user_payload)
+
+2. В проекте используется alembic  - почему нет его у Нас и для чего он у них?
+3. Все что касается работы с соц сетями в папке services - но там просто методы , но я не нашел их применения?
+Также я не нашел там env файла из которого core.config берет данные для VK например - вот эти:
+from core.config import (
+    VK_API_URL,
+    VK_API_VERSION,
+    VK_AUTHORIZE_PARAMS,
+    VK_AUTHORIZE_URL,
+    VK_CLIENT_ID,
+    VK_CLIENT_SECRET,
+    VK_GET_ACCESS_TOKEN_URL,
+    VK_REDIRECT_URI,
+)
