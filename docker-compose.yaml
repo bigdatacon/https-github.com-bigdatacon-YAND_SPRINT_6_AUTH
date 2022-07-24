@@ -106,45 +106,45 @@ services:
       - elastic
       - redis
 
-  flask_auth_api:
-    build:
-      context: auth_api/flask_app
-      dockerfile: Dockerfile
-    container_name: flask_auth_api
-    env_file:
-      - auth.env
-    volumes:
-      - ./auth_api/flask_app:/auth_api/flask_app
-    networks:
-      - movies_network
-    depends_on:
-      - postgres_auth
-      - redis_auth
-
-  postgres_auth:
-    image: postgres:13-alpine
-    container_name: postgres_auth
-    env_file:
-      - db_auth.env
-    volumes:
-      - ./auth_api/postgres_auth/pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - movies_network
-
-  redis_auth:
-    build:
-      context: auth_api/redis_auth
-      dockerfile: Dockerfile
-    container_name: redis_auth
-    volumes:
-      - ./auth_api/redis_auth/conf/etc:/usr/local/etc/redis
-    #ports:
-    #- "6379:6379"
-    networks:
-      - movies_network
-    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+#  flask_auth_api:
+#    build:
+#      context: auth_api/flask_app
+#      dockerfile: Dockerfile
+#    container_name: flask_auth_api
+#    env_file:
+#      - auth.env
+#    volumes:
+#      - ./auth_api/flask_app:/auth_api/flask_app
+#    networks:
+#      - movies_network
+#    depends_on:
+#      - postgres_auth
+#      - redis_auth
+#
+#  postgres_auth:
+#    image: postgres:13-alpine
+#    container_name: postgres_auth
+#    env_file:
+#      - db_auth.env
+#    volumes:
+#      - ./auth_api/postgres_auth/pgdata:/var/lib/postgresql/data
+#    ports:
+#      - "5432:5432"
+#    networks:
+#      - movies_network
+#
+#  redis_auth:
+#    build:
+#      context: auth_api/redis_auth
+#      dockerfile: Dockerfile
+#    container_name: redis_auth
+#    volumes:
+#      - ./auth_api/redis_auth/conf/etc:/usr/local/etc/redis
+#    #ports:
+#    #- "6379:6379"
+#    networks:
+#      - movies_network
+#    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
 
 
 # Указываем Docker, какие именованные тома потребуются сервисам
