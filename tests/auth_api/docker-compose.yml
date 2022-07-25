@@ -29,8 +29,6 @@ services:
   postgres_auth_test:
     image: postgres:13-alpine
     container_name: postgres_auth_test
-    volumes:
-      - pgdata_test_volume:/var/lib/postgresql/tests/data
     env_file:
       - db_auth.env
     ports:
@@ -64,9 +62,6 @@ services:
       - movies_network
     command: ["bash", "-c", "PYTHONPATH=. python utils/wait_for_api.py && pytest -s src/"]
 
-
-volumes:
-  pgdata_test_volume:
 
 networks:
   movies_network:
