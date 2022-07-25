@@ -52,6 +52,7 @@ def init_db(testing: bool = False):
     to admin group if not already.
     In case ot the testing database create a testing group and a testing user.
     """
+    db.create_all()
     if testing:
         # For testing database, delete all data first
         logger.info("Deleting all existing data before running tests")
