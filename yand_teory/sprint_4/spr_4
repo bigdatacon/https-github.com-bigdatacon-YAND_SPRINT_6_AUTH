@@ -1,8 +1,40 @@
+0. Удалит файл postgres_to_es/state.json если он есть
+
+1. Инициализация базы в контейнере
+docker exec <CONTAINER_ID> python manage.py dbshell < create_shema_and_tables.sql
+docker exec <CONTAINER_ID> python load_data_vremenni.py
+Контейнер нужен для django_movies, в нем нужные файлы с базой данных фильмов. На виртуалке все после этого работает
+
+-в реале с подставление имен контейнера
+docker exec 3705ea28b3b2 python manage.py dbshell < create_shema_and_tables.sql
+docker exec 3705ea28b3b2 python load_data_vremenni.py
+
+2.Что под пунктом 1 не работает нужно теперь так:
+Вместо
+docker exec <CONTAINER_ID> python manage.py dbshell < create_shema_and_tables.sql
+нужно давать команду
+docker exec <CONTAINER_ID> ./create_data.sh
+
+-- с учетом реального контейнера
+docker exec ed42b600aeb6 ./create_data.sh
+
+-- Внимаение если выдает ошибку в винде  /usr/bin/env: ‘bash\r’: No such file or directory
+docker exec 4bce93a3597a apt-get update
+docker exec 4bce93a3597a apt-get install dos2unix
+docker exec 4bce93a3597a dos2unix create_data.sh
+docker exec 4bce93a3597a ./create_data.sh
+
+-- далее наполненеие базы docker exec python <CONTAINER_ID> load_data_vremenni.py
+docker exec 4bce93a3597a python load_data_vremenni.py
+
+
 #получить данные из эластик
 In [1]: from elasticsearch import Elasticsearch
 
 In [2]: es = Elasticsearch('http://127.0.0.1:9200')
 es.get('movies', 'd63caf3f-0358-4797-aca8-797a555c2efe')
+es.get('movies', 'b5be974b-8f75-4ba8-b714-d86b198e6ded')
+
 
 
 
@@ -10,13 +42,28 @@ es.get('movies', 'd63caf3f-0358-4797-aca8-797a555c2efe')
 # Импорты
 from elasticsearch import Elasticsearch
 import aioredis
-from services.films import FilmService
+from services.film import FilmService
 
 # Подключаемся к Elastic
 es = Elasticsearch('http://127.0.0.1:9200')
 
 # Подключаемся к Redis
 redis = await aioredis.create_redis_pool(('127.0.0.1', 6379), password='password')
+
+#Нужно импортировать из db.cache и db.storage
+объекты RedisCache и ElasticStorage и
+инициализировать их
+from db.cache import RedisCache
+from db.storage import ElasticStorage
+cache = RedisCache(redis)
+storage=ElasticStorage(elastic)  - так не сработало
+storage=ElasticStorage(es) - так сработало
+
 # Создание объекта FilmService и обращение к нему за получением фильма
 fs = FilmService(elastic=es, redis=redis)
+fs = FilmService(storage=storage, cache=cache)
+
+
 await fs.get_by_id('d63caf3f-0358-4797-aca8-797a555c2efe')
+await fs.get_by_id('b5be974b-8f75-4ba8-b714-d86b198e6ded')
+await fs.get_by_id(..)
