@@ -24,7 +24,7 @@ docker exec 4bce93a3597a apt-get install dos2unix
 docker exec 4bce93a3597a dos2unix create_data.sh
 docker exec 4bce93a3597a ./create_data.sh
 
--- далее наполненеие базы docker exec python <CONTAINER_ID> load_data_vremenni.py
+-- далее наполненеие базы docker exec python <CONTAINER_ID> load_data_vremenni.py после запуска контейнеров
 docker exec 4bce93a3597a python load_data_vremenni.py
 
 
@@ -36,34 +36,16 @@ es.get('movies', 'd63caf3f-0358-4797-aca8-797a555c2efe')
 es.get('movies', 'b5be974b-8f75-4ba8-b714-d86b198e6ded')
 
 
-
-
 #получить данне из редиса
-# Импорты
-from elasticsearch import Elasticsearch
-import aioredis
 from services.film import FilmService
-
-# Подключаемся к Elastic
-es = Elasticsearch('http://127.0.0.1:9200')
-
-# Подключаемся к Redis
-redis = await aioredis.create_redis_pool(('127.0.0.1', 6379), password='password')
-
-#Нужно импортировать из db.cache и db.storage
-объекты RedisCache и ElasticStorage и
-инициализировать их
 from db.cache import RedisCache
+
 from db.storage import ElasticStorage
+from aioredis import create_redis_pool
+from elasticsearch import AsyncElasticsearch
+
+es = ElasticStorage(AsyncElasticsearch("http://127.0.0.1:9200"))
+redis = await create_redis_pool(('127.0.0.1', '6379'), password='password')
 cache = RedisCache(redis)
-storage=ElasticStorage(elastic)  - так не сработало
-storage=ElasticStorage(es) - так сработало
-
-# Создание объекта FilmService и обращение к нему за получением фильма
-fs = FilmService(elastic=es, redis=redis)
-fs = FilmService(storage=storage, cache=cache)
-
-
-await fs.get_by_id('d63caf3f-0358-4797-aca8-797a555c2efe')
+fs = FilmService(cache=redis, storage=es)
 await fs.get_by_id('b5be974b-8f75-4ba8-b714-d86b198e6ded')
-await fs.get_by_id(..)

@@ -1,0 +1,6 @@
+isort==5.10.1
+backoff==1.11.1
+kafka-python==2.0.2
+pydantic==1.9.0
+clickhouse-driver==0.2.2
+python-json-logger==2.0.2

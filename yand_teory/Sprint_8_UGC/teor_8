@@ -1,3 +1,9 @@
+I.Kafka
+-- скачать кафку
+ git clone https://github.com/confluentinc/cp-all-in-one.git
+--
+
+II. Clickhouse
 Создайте клиента, через которого будут выполняться все запросы:
 from clickhouse_driver import Client
 
@@ -7,6 +13,8 @@ client = Client(host='localhost')
 Зайдите в контейнер первого шарда и запустите клиент:
 $ docker exec -it clickhouse-node1 bash
 $ clickhouse-client
+
+CREATE TABLE shard.test (id Int64, event_time DateTime) Engine=ReplicatedMergeTree('/clickhouse/tables/shard1/test', 'replica_1') PARTITION BY toYYYYMMDD(event_time) ORDER BY id;
 
 CREATE DATABASE shard;
 CREATE DATABASE replica;
