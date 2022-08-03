@@ -28,6 +28,7 @@ class ReaderSettings(BaseModel):
 
     consumer_timeout_ms: float
     sleeping_time: float
+    batch_size: int
 
 
 class WriterSettings(BaseModel):

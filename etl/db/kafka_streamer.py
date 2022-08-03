@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class KafkaStreamer(AbstractStreamer):
     """."""
 
-    consumer: dict = []
+    consumer: dict = {}
 
     def __init__(self):
         """."""
@@ -37,7 +37,7 @@ class KafkaStreamer(AbstractStreamer):
             result_dict.append(
                 FilmView(user=m.key[5:41], film=m.key[47:], progress_time=m.value)
             )
-            print(f' eto result_dict: {result_dict}')
+            print(f' eto result_dict read from kafka: {result_dict}')
             if len(result_dict) >= self.batch_size:
                 break
 

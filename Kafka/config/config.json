@@ -12,7 +12,8 @@
     },
     "reader": {
         "consumer_timeout_ms": 10,
-        "sleeping_time": 5
+        "sleeping_time": 5,
+        "batch_size": 5
     },
     "writer": {
         "speed": 1,
