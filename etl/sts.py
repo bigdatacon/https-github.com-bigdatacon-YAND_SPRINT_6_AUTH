@@ -30,5 +30,5 @@ class StreamerToStorage:
             result_rows = self.streamer.read(topic)
             print(f' eto result_rows : {result_rows}')
             """комментирую пока нет топиков в кликхаус"""
-            # if result_rows:
-            #     self.storage.save(result_rows, topic)
+            if result_rows:
+                self.storage.save(result_rows, topic)

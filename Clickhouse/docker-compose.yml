@@ -3,7 +3,7 @@ version: '3.5'
 services:
   zookeeper:
     image: zookeeper:3.5
-    container_name: zookeeper
+    container_name: zookeeper1
     hostname: zookeeper
 
   clickhouse-node1:
