@@ -35,6 +35,8 @@ https://github.com/bigdatacon/https-github.com-bigdatacon-YAND_SPRINT_6_AUTH/tre
 18. Externak network в докере по логсташу
 19. Откуда настройки для докера для filebeat?
 20. Sentury настраивали или нет?
+21.Докер файл не запускает ничего из папки ELK? То есть для чтения из кафки нет процесса?
+22. ZOOKEPER запускается на одом порте для кликхаус и кафки?
 
 
 
