@@ -9,7 +9,7 @@
 # Keep your token secure and store it safely, it can be used by anyone to control your bot.
 # For a description of the Bot API, see this page: https://core.telegram.org/bots/api
 
-token = 5429523487:AAEe5V8eHBncO_t1w-wjvXTe1Ml_GtdOofY
+token = '5429523487:AAEe5V8eHBncO_t1w-wjvXTe1Ml_GtdOofY'
 # Подключаем Telegram API
 import telebot
 # Подключаем библиотеку для создания кнопок
