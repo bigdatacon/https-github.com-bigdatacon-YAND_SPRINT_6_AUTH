@@ -21,7 +21,7 @@ LOGGING = {
         'file': {
             'formatter': 'json',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'etl.log',
+            'filename': '../log/etl/etl.log',
             'mode': 'a',
             'delay': '1',
             'maxBytes': 1000000,

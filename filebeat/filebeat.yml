@@ -2,8 +2,8 @@ filebeat.inputs:
 - type: log
   enabled: true
   paths:
-    - /var/log/kafka_writer/*
-  tags: ["kafka_writer"]
+    - /var/log/etl/*
+  tags: ["etl"]
   json:
     keys_under_root: true
     add_error_key: true
