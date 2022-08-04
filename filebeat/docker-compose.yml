@@ -3,7 +3,7 @@ version: '3'
 services:
 
   filebeat:
-    build: .
+#    build: .
     container_name: filebeat
     restart: always
     networks:

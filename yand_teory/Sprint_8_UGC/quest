@@ -37,6 +37,19 @@ https://github.com/bigdatacon/https-github.com-bigdatacon-YAND_SPRINT_6_AUTH/tre
 20. Sentury настраивали или нет?
 21.Докер файл не запускает ничего из папки ELK? То есть для чтения из кафки нет процесса?
 22. ZOOKEPER запускается на одом порте для кликхаус и кафки?
+23. Не может сделать бил filebeat https://disk.yandex.ru/i/3HgewrDXrlrp2g
+я актуализировал версию файлбита но все равно не работает,
+пишет что требуется авторизвация? Но где , root это пользователь на файлбите? ниже код ошибки?
+{"errors":[{"code":"UNAUTHORIZED","message":"authentication required","detail":[{"Type":"repository","Class":"","Name":"beats/filebeat","Action":"pull"}]}]}
 
+24. В докер компоузе путь для логов в докере для ETL прописан как /etl/log/
+  etl:
+    build: ./etl
+    container_name: etl
+    restart: always
+    volumes:
+      - ./log/etl/:/etl/log/
 
+Но в filebeat прописан наоборот как путь до локальной системы      - /var/log/etl/*
+или он и берет из локальной системы?
 
