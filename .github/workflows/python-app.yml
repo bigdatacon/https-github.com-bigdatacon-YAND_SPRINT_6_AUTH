@@ -37,3 +37,19 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+        
+  notification:
+    name: send message to telegram
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: fail
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_USER_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            ${{ github.actor }} created new ${{ github.event_name }}.
+            Repository: ${{ github.repository }}
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
