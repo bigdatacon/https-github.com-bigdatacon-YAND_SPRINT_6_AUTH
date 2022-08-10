@@ -59,7 +59,11 @@ https://disk.yandex.ru/i/3_yFXVyQ5NTttg
 даже если наживаю git add - так и должно быть потому что они пустые или я что то не так делаю?
 Может из-за этого их не видит докер при поднятии?
 
+26.5. В файле ugc_sprint_2_new/kafka_rw/logger/logger_config.py  логи пишутся в папку которая в корне проекта но .. перед путем не стоит почему? Я у себя также сделал
+'filename': 'logs/kafka_writer.log',
+
 27. Ошибки в логах:
+Основные проблемы в kafka_writer:
 kafka_writer  | FileNotFoundError: [Errno 2] No such file or directory: '/kafka_writer/..log/kafka/kafka.log'
 kafka_writer 2022-08-05 00:06:22,952 - kafka.conn - ERROR - Connect attempt to <BrokerConnection node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]> returned error 111. Disconnecting.
 kafka_writer  | 2022-08-05 00:07:28,081 - kafka.conn - ERROR - Connect attempt to <BrokerConnection node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]> returned error 99. Disconnecting.
@@ -68,7 +72,37 @@ schema-registry  | [main] ERROR io.confluent.admin.utils.ClusterStatus - Error w
 schema-registry  | [main] ERROR io.confluent.admin.utils.ClusterStatus - Expected 1 brokers but found only 0. Brokers found [].
 
 zookeeper  | 2022-08-05 00:06:16,118 [myid:] - ERROR [main:QuorumPeerConfig@649] - Invalid configuration, only one server specified (ignoring)
+
 etl  | 2022-08-05 00:06:45,114 - kafka.conn - ERROR - Connect attempt to <BrokerConnection node_id=bootstrap-0 host=broker:29092 <connecting> [IPv4 ('172.19.0.9', 29092)]> returned error 111. Disconnecting.
 
 filebeat  | {"log.level":"error","@timestamp":"2022-08-05T00:07:00.719Z","log.origin":{"file.name":"instance/beat.go","file.line":1051},"message":"Exiting: Failed to start crawler: starting input failed: input with same ID already e
 xists: 6334277295534775856","service.name":"filebeat","ecs.version":"1.6.0"}
+
+28. Я правильно понимаю что       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+где localhost:9092 - это ведь не то же самое что и просто localhost?
+29. В рамках 10 спринта что такое API И как оно работает на примере уведомлений?
+30. В 10 спринте что за переменная начинается c github. это там где нотификация на телеграмм
+31. Как подключиться по websocat вот например предлагаю так :
+websocat ws://localhost:8765  но если в терминале это набрать ничего не отрабатывает
+так как не находит такой утилиты,
+на гитхабе репо здесь, но там подключение опписано не для винды ,можно как то на винде это проверить или скачать?
+https://github.com/vi/websocat
+
+Notifications:
+32.как работает файл setup.cfg?
+33. Что делает файл notifications_sprint_1/design.puml
+34.kafka есть в воркере, в notifications_service И просто кафка - зачем так?
+35. Что делают файлы в папке db? И как наполняется база - это действующая или под статистику уведомлений?
+36. Что делает файл notifications_sprint_1/email/cron_service/src/entrypoint.sh
+37. Как в этом файле notifications_sprint_1/email/db/init.sql
+работает вот этот код:
+
+COPY content.filmwork
+FROM '/docker-entrypoint-initdb.d/csv/filmwork.csv'
+DELIMITER ',' CSV HEADER;
+
+38. Где запускается весь этот код из notifications_sprint_1/email/db/init.sql?
+39. Что делаю файлы здесь ? notifications_sprint_1/email/enrichment_service/src/db/
+
+
+
