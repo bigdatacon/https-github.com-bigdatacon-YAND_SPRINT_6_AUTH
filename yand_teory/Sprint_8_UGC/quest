@@ -103,6 +103,28 @@ DELIMITER ',' CSV HEADER;
 
 38. Где запускается весь этот код из notifications_sprint_1/email/db/init.sql?
 39. Что делаю файлы здесь ? notifications_sprint_1/email/enrichment_service/src/db/
+40. Обсудить само задание что за апи процесс, что за воркер и тд
+41. Как делать пуш уведомления?
+42. Нужно делать то что написано в Задании или в Задаче?
+43.ТО что в папке websocet в репо не имеет же отношения к уведомлениям?
+44. Как работает logging в этой и прочих папках notifications_sprint_1/email/notification_service/src/
+если import logging есть почти везде но нет файла logconfig?
+45. Вот этот код - не уивдел чтобы где то вызывался код wait fro kafka
+notifications_sprint_1/email/notification_service/src/wait_for_kafka.py
+если только он не вызывается в notifications_sprint_1/email/notification_service/src/entrypoint.sh
+
+46. Обсудить докер файл как и что там
+47. Файлы как минимум в папках worker и notification_service очень похожи, я пока не нашел отличия (не очень искал) - они так и должны быть почти идентичны?
+48. Для чего нужные файлы тут :
+notifications_sprint_1/email/enrichment_service/src/db/auth.py /
+49. Зачем вообще нужно апи  можно как то без него просто передавать инфо для новых пользователей ?
+50. Обсудить команды ниже
+RUN chmod 777 ./entrypoint.sh
+
+ENTRYPOINT [ "./entrypoint.sh" ]
+
+
+
 
 
 
