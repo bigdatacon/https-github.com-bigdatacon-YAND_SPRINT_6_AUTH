@@ -123,7 +123,38 @@ RUN chmod 777 ./entrypoint.sh
 
 ENTRYPOINT [ "./entrypoint.sh" ]
 
+51. Зачем устанавливать virtual env?
+52. Что делает это строка? data: Optional[dict] ведь если не написано что может быть None - то значит все равно data Это dict , для чего тогда там Optional?
 
+53. Зачем ниже метод супер? Чтобы просто не писать self при инициализации?
+
+class ScheduledNotification(BaseModel):
+    """Scheduled Notification."""
+
+    id: str
+    schedule: str
+    template_name: str
+    data: Optional[dict]
+    last_update_time: datetime.datetime
+    enabled: bool
+    user_ids: Optional[str] = None
+
+    def __init__(self, id, schedule, template_name, data, last_update_time, enabled):
+        super().__init__(
+            id=id,
+            schedule=schedule,
+            template_name=template_name,
+            data=data,
+            last_update_time=last_update_time,
+            enabled=enabled
+        )
+
+54. def get_rows(self, sql, args: list = None):  - None здесь ведь по дефолту, если не передано иное?
+55. Установить пайчарм на линукс?
+56. Обсудить этот requirements notifications_sprint_1/email/cron_service/Dockerfile , особенно WORKDIR /opt/app
+57. notifications_sprint_1/email/enrichment_service/openapi.json - этот файл это описание openapi? Почему в таком формате? Или этот файл получается просто переходом по пути /openapi.json?
+58. Что значит no cache в RUN pip install --upgrade pip --no-cache && pip install -r requirements.txt --no-cache
+59. ДЛя чего здесь определены функции startup и shutdown  -  notifications_sprint_1/email/enrichment_service/src/main.py ?
 
 
 
