@@ -42,9 +42,6 @@ services:
     depends_on:
       - elasticsearch
 
-
-
 networks:
   movies_network:
-#    external: true  -- раскомментировать если уже запущен какой либо докер с movies_network
-#либо сначала создать сетку movies_network а во всех компоузах прописать external True
+    external: true
