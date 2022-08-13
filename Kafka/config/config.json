@@ -1,7 +1,7 @@
 {
     "kafka": {
-        "host": "localhost",
-        "port": "9092"
+        "host": "broker",
+        "port": "29092"
     },
     "clickhouse": {
         "host": "",

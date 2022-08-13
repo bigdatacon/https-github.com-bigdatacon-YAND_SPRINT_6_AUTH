@@ -21,7 +21,7 @@ LOGGING = {
         'file': {
             'formatter': 'json',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'log/kafka/kafka.log',
+            'filename': 'logs/kafka_writer.log',
             'mode': 'a',
             'delay': '1',
             'maxBytes': 1000000,
