@@ -2419,3 +2419,5 @@
 {"asctime": "2022-08-13 13:02:01,121", "name": "__main__", "levelname": "INFO", "message": "Send to 'likes' - 'user_4ad2e20e-1a3f-44e4-bfce-b6fe9adb87c9_film_f64872ce-9fb9-4ee1-aa4e-60810929a92f': '4'"}
 {"asctime": "2022-08-13 13:02:03,124", "name": "__main__", "levelname": "INFO", "message": "Send to 'likes' - 'user_0f78a40b-9100-441d-8c18-82f8637c07e6_film_27e93aa1-4293-482e-a15b-a04b2e01dfac': '5'"}
 {"asctime": "2022-08-13 13:02:05,127", "name": "__main__", "levelname": "INFO", "message": "Send to 'comments' - 'user_000cb554-dc94-445d-b032-55ce18d654d5_film_c8ec73ae-b14a-4566-8852-bbd272cfe23a': 'yqesryumtwvbvtsxuetvlpsgxwhfsuokfyppbeukxvuxugcuxizibynfqnyjvcxlitkdfobqbcmuakvuvaqirvbwdfimatprowqdxfvzmxiusrtbkpsczonomjpfniwwtw'"}
+{"asctime": "2022-08-13 13:02:07,130", "name": "__main__", "levelname": "INFO", "message": "Send to 'likes' - 'user_46f1b3bd-eb49-4bcf-b21b-0de479171f2a_film_6f4fdfd7-2b6b-4242-a1e9-f81bc89e6f1f': '2'"}
+{"asctime": "2022-08-13 13:02:09,133", "name": "__main__", "levelname": "INFO", "message": "Send to 'bookmarks' - 'user_558e5400-a9e1-4796-865c-bbdb301f7260_film_8420d060-89b0-4635-8496-243591e89d39': '0'"}
