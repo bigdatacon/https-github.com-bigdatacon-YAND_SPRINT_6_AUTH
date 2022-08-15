@@ -261,8 +261,6 @@ services:
       KAFKA_HOST: 'broker'
       KAFKA_PORT: '29092'
 
-
-
   etl:
     build: ./etl
     container_name: etl
@@ -287,8 +285,8 @@ services:
     networks:
       - movies_network
     volumes:
-      - ./log/kafka/:/var/log/kafka/:ro
-      - ./log/etl/:/var/log/etl/:ro
+      - ./logs/kafka_writer/:/var/log/kafka_writer/:ro
+      - ./logs/etl/:/var/log/etl/:ro
     depends_on:
       - kafka_writer
 
@@ -300,4 +298,4 @@ volumes:
 
 networks:
   movies_network:
-#    external: true
+    external: true

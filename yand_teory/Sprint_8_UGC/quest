@@ -155,6 +155,7 @@ class ScheduledNotification(BaseModel):
 57. notifications_sprint_1/email/enrichment_service/openapi.json - этот файл это описание openapi? Почему в таком формате? Или этот файл получается просто переходом по пути /openapi.json?
 58. Что значит no cache в RUN pip install --upgrade pip --no-cache && pip install -r requirements.txt --no-cache
 59. ДЛя чего здесь определены функции startup и shutdown  -  notifications_sprint_1/email/enrichment_service/src/main.py ?
+60. Обязательно спроси про вебсокет websocat ws://localhost:8765  - у меня это не рабоатет
 
 
 

@@ -1,4 +1,7 @@
 удалить контейнеры docker-compose down -v --remove-orphans
+создать сеть docker network create movies_network
+Скачать websocat тут https://github.com/vi/websocat/releases
+Подключиться из папки где файл websocat: websocat.x86_64-pc-windows-gnu.exe ws://localhost:8765
 
 https://github.com/mbr55aa/ugc_sprint_2_new/blob/main/services/clickhouse/init3.sql   ugc Alexey
 https://github.com/mbr55aa/Auth_sprint_2_new  auth Alexey
