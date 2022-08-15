@@ -1,0 +1,162 @@
+1. СI CD - уведомления  в ТГ работает?
+2. СI CD - в тестах верно ли работает путь shared_dir куда записывается ответ файла, мне просто такой папеи нет
+3. Как добавлять секреты в CI CD
+4. Не совсем понял что описывает блок build в файле ugc_sprint_2_new/.github/workflows/ci.yml
+А именно что делает вот этот участнок его нет в теории:
+      - name: Lint with mypy
+        run: |
+          mypy ./benchmarks --ignore-missing-imports
+
+5. В файле ugc_sprint_2_new/etl/db/kafka_streamer.py
+в строке 37 из кафки читаются данные пользователя через срез строки - видимо так как там составной ключ юзер + фильм,
+но где идет запись в кафку?
+
+6. Зачем тут kafka_rw/kafka_writer.py 73 строка  применяется encode key=self.event_key.encode(),?
+7. ДО какого момента выполняется эта функция в kafka_writer (ugc_sprint_2_new/kafka_rw/kafka_writer.py) - у меня она постоянно крутится и не останавливает?
+while True:
+    writer.run()
+    sleep(config.writer.speed)
+
+9. В файле ugc_sprint_2_new/etl/db/ch_storage.py  - в строке 24 на вход FilmBase в этом классе всего 2 поля и в нем нет поля progress_time
+, такое поле появляется только в классе FilmView. Но видимо все равно все работает так как данные для записи в строку 24 попадают уже после чтения из кафки и там
+есть поле value?
+
+10.Как дать доступ к репо в ГХ(вопрос актуален если ты не видишь файлы из репо в пункте 11)?
+
+11. Видиш ли ты это репо и эту ветку - она текущая
+https://github.com/bigdatacon/https-github.com-bigdatacon-YAND_SPRINT_6_AUTH/tree/spr_8_1
+
+12.Перенести данные из одного репо в другое
+13. Сi/CD - особенно в части тестов, и секретов
+14.Обговорить про докер - то есть он работает как отдельный компьютер и использует то ПО которыое в докерфайле прописано и не Важно
+линукс на компе, винда или еще что?
+
+17. Не запускат в докере кибану пишет нет доступа
+18. Externak network в докере по логсташу
+19. Откуда настройки для докера для filebeat?
+
+22. ZOOKEPER получается запускается на одом порте 2181 для кликхаус и кафки - так получается можно?
+20. Sentury настраивали или нет?
+21.Докер файл не запускает ничего из папки ELK?
+23. Чтобы в кибане завести индекс нужно же сначала ее поднять, а если в докере кибана не запускается, получается индекс заранее создается при
+поднятии кибаны отдельно? Но чтобы создать индекс требуется загрузить данные, если выбрать из вариантов логи - то они просят
+установить filebeat - то есть все по новой начинается
+https://disk.yandex.ru/i/3_yFXVyQ5NTttg
+
+24. В докер компоузе путь для логов в докере для ETL прописан как /etl/log/
+  etl:
+    build: ./etl
+    container_name: etl
+    restart: always
+    volumes:
+      - ./log/etl/:/etl/log/
+
+Но в filebeat прописан наоборот как путь до локальной системы      - /var/log/etl/*
+или он и берет из локальной системы?
+
+25. Докер бидится но не поднимается, ошибка в kafka_writer, но какая я понять не могут
+26. У меня папака log и вложенные в нее папки пустые, но когда делаю коммит и пуш на гит хаб - они никак не загружаются,
+даже если наживаю git add - так и должно быть потому что они пустые или я что то не так делаю?
+Может из-за этого их не видит докер при поднятии?
+
+26.5. В файле ugc_sprint_2_new/kafka_rw/logger/logger_config.py  логи пишутся в папку которая в корне проекта но .. перед путем не стоит почему? Я у себя также сделал
+'filename': 'logs/kafka_writer.log',
+
+27. Ошибки в логах:
+Основные проблемы в kafka_writer:
+kafka_writer  | FileNotFoundError: [Errno 2] No such file or directory: '/kafka_writer/..log/kafka/kafka.log'
+kafka_writer 2022-08-05 00:06:22,952 - kafka.conn - ERROR - Connect attempt to <BrokerConnection node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]> returned error 111. Disconnecting.
+kafka_writer  | 2022-08-05 00:07:28,081 - kafka.conn - ERROR - Connect attempt to <BrokerConnection node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]> returned error 99. Disconnecting.
+
+schema-registry  | [main] ERROR io.confluent.admin.utils.ClusterStatus - Error while getting broker list.
+schema-registry  | [main] ERROR io.confluent.admin.utils.ClusterStatus - Expected 1 brokers but found only 0. Brokers found [].
+
+zookeeper  | 2022-08-05 00:06:16,118 [myid:] - ERROR [main:QuorumPeerConfig@649] - Invalid configuration, only one server specified (ignoring)
+
+etl  | 2022-08-05 00:06:45,114 - kafka.conn - ERROR - Connect attempt to <BrokerConnection node_id=bootstrap-0 host=broker:29092 <connecting> [IPv4 ('172.19.0.9', 29092)]> returned error 111. Disconnecting.
+
+filebeat  | {"log.level":"error","@timestamp":"2022-08-05T00:07:00.719Z","log.origin":{"file.name":"instance/beat.go","file.line":1051},"message":"Exiting: Failed to start crawler: starting input failed: input with same ID already e
+xists: 6334277295534775856","service.name":"filebeat","ecs.version":"1.6.0"}
+
+28. Я правильно понимаю что       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+где localhost:9092 - это ведь не то же самое что и просто localhost?
+29. В рамках 10 спринта что такое API И как оно работает на примере уведомлений?
+30. В 10 спринте что за переменная начинается c github. это там где нотификация на телеграмм
+31. Как подключиться по websocat вот например предлагаю так :
+websocat ws://localhost:8765  но если в терминале это набрать ничего не отрабатывает
+так как не находит такой утилиты,
+на гитхабе репо здесь, но там подключение опписано не для винды ,можно как то на винде это проверить или скачать?
+https://github.com/vi/websocat
+
+Notifications:
+32.как работает файл setup.cfg?
+33. Что делает файл notifications_sprint_1/design.puml
+34.kafka есть в воркере, в notifications_service И просто кафка - зачем так?
+35. Что делают файлы в папке db? И как наполняется база - это действующая или под статистику уведомлений?
+36. Что делает файл notifications_sprint_1/email/cron_service/src/entrypoint.sh
+37. Как в этом файле notifications_sprint_1/email/db/init.sql
+работает вот этот код:
+
+COPY content.filmwork
+FROM '/docker-entrypoint-initdb.d/csv/filmwork.csv'
+DELIMITER ',' CSV HEADER;
+
+38. Где запускается весь этот код из notifications_sprint_1/email/db/init.sql?
+39. Что делаю файлы здесь ? notifications_sprint_1/email/enrichment_service/src/db/
+40. Обсудить само задание что за апи процесс, что за воркер и тд
+41. Как делать пуш уведомления?
+42. Нужно делать то что написано в Задании или в Задаче?
+43.ТО что в папке websocet в репо не имеет же отношения к уведомлениям?
+44. Как работает logging в этой и прочих папках notifications_sprint_1/email/notification_service/src/
+если import logging есть почти везде но нет файла logconfig?
+45. Вот этот код - не уивдел чтобы где то вызывался код wait fro kafka
+notifications_sprint_1/email/notification_service/src/wait_for_kafka.py
+если только он не вызывается в notifications_sprint_1/email/notification_service/src/entrypoint.sh
+
+46. Обсудить докер файл как и что там
+47. Файлы как минимум в папках worker и notification_service очень похожи, я пока не нашел отличия (не очень искал) - они так и должны быть почти идентичны?
+48. Для чего нужные файлы тут :
+notifications_sprint_1/email/enrichment_service/src/db/auth.py /
+49. Зачем вообще нужно апи  можно как то без него просто передавать инфо для новых пользователей ?
+50. Обсудить команды ниже
+RUN chmod 777 ./entrypoint.sh
+
+ENTRYPOINT [ "./entrypoint.sh" ]
+
+51. Зачем устанавливать virtual env?
+52. Что делает это строка? data: Optional[dict] ведь если не написано что может быть None - то значит все равно data Это dict , для чего тогда там Optional?
+
+53. Зачем ниже метод супер? Чтобы просто не писать self при инициализации?
+
+class ScheduledNotification(BaseModel):
+    """Scheduled Notification."""
+
+    id: str
+    schedule: str
+    template_name: str
+    data: Optional[dict]
+    last_update_time: datetime.datetime
+    enabled: bool
+    user_ids: Optional[str] = None
+
+    def __init__(self, id, schedule, template_name, data, last_update_time, enabled):
+        super().__init__(
+            id=id,
+            schedule=schedule,
+            template_name=template_name,
+            data=data,
+            last_update_time=last_update_time,
+            enabled=enabled
+        )
+
+54. def get_rows(self, sql, args: list = None):  - None здесь ведь по дефолту, если не передано иное?
+55. Установить пайчарм на линукс?
+56. Обсудить этот requirements notifications_sprint_1/email/cron_service/Dockerfile , особенно WORKDIR /opt/app
+57. notifications_sprint_1/email/enrichment_service/openapi.json - этот файл это описание openapi? Почему в таком формате? Или этот файл получается просто переходом по пути /openapi.json?
+58. Что значит no cache в RUN pip install --upgrade pip --no-cache && pip install -r requirements.txt --no-cache
+59. ДЛя чего здесь определены функции startup и shutdown  -  notifications_sprint_1/email/enrichment_service/src/main.py ?
+60. Обязательно спроси про вебсокет websocat ws://localhost:8765  - у меня это не рабоатет
+
+
+
+

@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  filebeat:
+#    build: .
+    container_name: filebeat
+    restart: always
+    networks:
+      - movies_network
+    volumes:
+      - ../log/kafka/:/var/log/kafka/:ro
+      - ../log/etl/:/var/log/etl/:ro
+#    depends_on:
+#      - kafka_writer
+
+#networks:
+#  movies_network:
+#    external: true

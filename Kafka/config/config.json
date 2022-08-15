@@ -1,0 +1,24 @@
+{
+    "kafka": {
+        "host": "broker",
+        "port": "29092"
+    },
+    "clickhouse": {
+        "host": "",
+        "port": 0
+    },
+    "common": {
+        "topics": ["likes", "comments", "views", "bookmarks"]
+    },
+    "reader": {
+        "consumer_timeout_ms": 10,
+        "sleeping_time": 5,
+        "batch_size": 5
+    },
+    "writer": {
+        "speed": 1,
+        "users_count": 20,
+        "films_count": 300,
+        "max_comment_len": 160
+    }
+}

@@ -1,3 +1,36 @@
+удалить контейнеры docker-compose down -v --remove-orphans
+создать сеть docker network create movies_network
+Скачать websocat тут https://github.com/vi/websocat/releases
+Подключиться из папки где файл websocat: websocat.x86_64-pc-windows-gnu.exe ws://localhost:8765
+
 https://github.com/mbr55aa/ugc_sprint_2_new/blob/main/services/clickhouse/init3.sql   ugc Alexey
 https://github.com/mbr55aa/Auth_sprint_2_new  auth Alexey
+https://github.com/AstapchikSergey/notifications_sprint_1  notifications Alexey
+
+
+django:
+https://www.youtube.com/watch?v=OTmQOjsl0eg  - Большое видео
+https://www.youtube.com/watch?v=6K83dgjkQNw - Дударев
+
+
+
+fast_api video
+https://www.youtube.com/watch?v=tKL6wEqbyNs&list=PLShTCj6cbon9gK9AbDSxZbas1F6b6C_Mx
+
+kafka_producer
+https://www.geeksforgeeks.org/introduction-to-confluent-kafka-python-producer/
+
+
+django
+https://www.youtube.com/watch?v=UxTwFMZ4r5k
+https://www.youtube.com/watch?v=Z4D3M-NSN58&list=PLzMcBGfZo4-kQkZp-j9PNyKq7Yw5VYjq9
+
+https://www.youtube.com/watch?v=aOLrEkpGWDg  - migrations
+https://www.youtube.com/watch?v=N4gjiJumTZg  - migrations full video
+
+
+https://www.youtube.com/watch?v=Ae7nc1EGv-A   - модели
+
+https://www.youtube.com/watch?v=ZgRkGfoy2nE - загрузка из sqlite в postgres и далее в джанго
+https://www.youtube.com/watch?v=CkYvpKZyEqI  - тут вроде то что нужно но для mysql
 
